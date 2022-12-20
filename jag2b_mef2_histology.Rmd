@@ -1,0 +1,403 @@
+---
+title: "Jag2b Heart Density Imaging"
+author: "Bradley Demarest"
+date: '2022-12-19'
+output: github_document
+---
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+library(readxl)
+library(gt)
+
+```
+
+
+```{r}
+# Load data for 4, 6, 8 month animals into separate data.tables.
+
+#--------------
+# 4-month data.
+tab4 = readxl::read_excel("mef2_histology_analysis_jag2b_4_month_2022-12-11.xlsx")
+
+tab4 = as.data.table(tab4)
+
+# Remove rows where notes columns contains 'ripped do not use'.
+tab4 = tab4[!notes %in% "ripped do not use"]
+
+# Remove rows where fish_id is NA.
+tab4 = tab4[!is.na(fish_id)]
+
+#--------------
+# 6-month data.
+tab6 = readxl::read_excel("mef2_histology_analysis_jag2b_6_month_2022-12-20.xlsx")
+
+tab6 = as.data.table(tab6)
+# No 'ripped section' notes. No NA fish_ids.
+
+#--------------
+# 8-month data.
+tab8 = readxl::read_excel("mef2_histology_analysis_jag2b_8_month_2022-12-20.xlsx")
+
+tab8 = as.data.table(tab8)
+# No 'ripped section' notes. No NA fish_ids.
+
+```
+
+Fish ids for 4-month histology data (dob:2021-08-19, n = 14 fish) are not 
+unique ids. (F16, F18, F19, F20, F21, F22, F23, F26, F27, F29, F3, F30, F8, F9)
+(Fish ids F0001-F0024 are dob:2020-10-14, ultrasound data)
+(Fish ids F0025-F0048 are dob:2021-08-19, ultrasound data)
+
+```{r}
+# Combine data for 3 ages into one data.table.
+
+tab4[, age:="4month"]
+tab6[, age:="6month"]
+tab8[, age:="8month"]
+
+tab = rbind(tab4, tab6, tab8)
+
+```
+
+
+
+
+```{r}
+# Create unique measurement id column.
+# Need to use: fish_id, file_id, section_id, measurement_id.
+
+# 1. id2 column creates a unique identifier for each measurement.
+#    Thus, the number of unique id2 values must equal the number of rows.
+tab[, id2:=paste(fish_id, "_", file_id, "_S", 
+                 section_id, "_M", measurement_id, 
+                 sep="")]
+
+stopifnot( length(unique(tab$id2)) == nrow(tab) )
+
+
+length(unique(tab$id2))
+# [1] 830
+
+dim(tab)
+# [1] 830  16
+
+# Deal with duplicated measurement ids.
+# tail(sort(table(tab$id2)))
+#    F9_6495_S2_M3    F9_6495_S2_M4    F9_6495_S2_M5 F0078_1708_S1_M1 
+#                1                1                1                2 
+# F0114_1997_S2_M5 F0123_2002_S2_M5 
+#                2                2
+# 2022-12-19: Fixed 3 data entry errors by hand 
+# (1 in 6month xlsx, 2 in 8month xlsx).
+
+
+
+# Unique identifier for each section.
+tab[, section_id2:=paste(file_id, section_id, sep="_")]
+length(unique(tab$section_id2))
+# [1] 166
+# There must be exactly 5 measurements for each section.
+# Thus number of unique section ids must match number of rows.
+# 166 * 5 = 830 
+
+# Assess mis-match between section ids and measurement count.
+dtab1 = tab[, list(measurement_count=.N), 
+            by=list(fish_id, age, genotype, section_id2)]
+
+dtab2 = tab[, list(measurement_count_per_section_id=.N),
+            by=section_id2]
+
+stopifnot(all(dtab2$count == 5))
+stopifnot(nrow(dtab1) == nrow(dtab2))
+
+# Assess whether file id is attached to more than 1 fish id.
+
+# No test needed here. Inventory of files(slides) used per fish_id.
+dtab3 = tab[, list(fileid_per_fishid=paste(sort(unique(file_id)),
+                                               collapse=",")),
+                   by=list(fish_id, age)]
+
+
+# 2. Each file_id belongs to only one fish_id.
+dtab4 = tab[, list(fishid_per_fileid=paste(sort(unique(fish_id)),
+                                           collapse=","),
+                   n_fishid_per_fileid=length(unique(fish_id))),
+            by=file_id]
+stopifnot(all(dtab4$n_fishid_per_fileid == 1))
+
+
+
+
+# fish_id2 with age and genotype included.
+tab[, fish_id2:=paste(genotype, fish_id, sep="_")]
+
+```
+
+
+```{r}
+# Manually create factor columns.
+
+tab[, genotype2:=factor(genotype, levels=c("wt", "het", "mut"))]
+
+
+```
+
+
+```{r}
+
+# Number of sections per fish_id
+xtab2 = tab[, .N, by=list(fish_id2, fish_id, age, genotype2, section_id2)]
+
+xtab2 %>% as_tibble() %>%
+  group_by(fish_id2) %>%
+  gt()
+
+
+
+# Summarize to one row per fish_id.
+xtab3 = xtab2[, list(sections_per_fish_id=.N), 
+              by=list(fish_id, fish_id2, age, genotype2)]
+
+setorder(xtab3, age, genotype2, sections_per_fish_id)
+
+xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
+
+dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
+  gt() %>%
+  tab_header(title="Number of fish measured")
+
+
+```
+
+
+
+```{r}
+# Plots of individual measurement values.
+
+
+setorder(xtab2, age, genotype2, fish_id)
+
+tab[, section_id2_fct:=factor(section_id2, levels=xtab2$section_id2)]
+
+tab[, fish_id2_fct:=factor(fish_id2, levels=xtab3$fish_id2)]
+
+
+by_section = tab[, list(mean_area=mean(area_um_sq),
+                        median_area=median(area_um_sq),
+                        min_area=min(area_um_sq),
+                        max_area=max(area_um_sq)),
+                 by=list(genotype2, age, fish_id2_fct, 
+                         section_id2_fct)]
+
+# Sort section_id by mean_area, within each panel.
+setorder(by_section, fish_id2_fct, mean_area)
+
+# Re-create section_id2_fct to follow the new sort order.
+by_section[, section_id2_fct:=factor(
+  as.character(section_id2_fct),
+  levels=as.character(section_id2_fct))]
+
+
+
+by_fish = by_section[,
+   list(mean_of_means_area=mean(mean_area),
+        median_of_medians_area=median(median_area)),
+   by=list(fish_id2_fct, age, genotype2)]
+
+# Summary plot of 5 values per section, with 
+# overall per-fish mean and median values.
+
+genotype_colors = c("wt"="#80b1d3",
+                    "het"="#b3de69",
+                    "mut"="#fb8072")
+p4_list = list()
+age_vec = sort(unique(tab$age))
+
+for (age_label in age_vec) {
+  tmp_by_fish = by_fish[age == age_label]
+  tmp_by_section = by_section[age == age_label]
+  
+tmp_plt = ggplot() +
+     theme_bw() +
+     geom_hline(data=tmp_by_fish,
+                aes(yintercept=mean_of_means_area),
+                linewidth=1.0,
+                color="grey30") +
+     geom_hline(data=tmp_by_fish,
+                aes(yintercept=median_of_medians_area),
+                linewidth=1.0,
+                color="grey30",
+                linetype="21") +
+     geom_linerange(data=tmp_by_section,
+                    aes(x=section_id2_fct,
+                        color=genotype2,
+                        min=min_area,
+                        max=max_area),
+                    linewidth=0.65) +
+     geom_point(data=tmp_by_section,
+                aes(x=section_id2_fct,
+                    color=genotype2,
+                    y=mean_area), 
+                size=3) +
+     geom_point(data=tmp_by_section,
+                aes(x=section_id2_fct,
+                    color=genotype2,
+                    y=median_area), 
+                size=3, 
+                shape=21,
+                fill="white") +
+     scale_color_manual(values=genotype_colors) +
+     theme(axis.text.x=element_text(angle=90, 
+                                    vjust=0.5, 
+                                    size = rel(0.8))) +
+     labs(title=paste(age_label, ". Jag2b heart area histology. Mef2 antibody.", sep="")) +
+     labs(subtitle="Per-fish mean = solid horizontal line, per-fish median = dashed line,\nPer-section mean = solid dots, per-section median = open dots,\nPer-section min and max = vertical solid line.") +
+     labs(x="Section ID (2 - 7 sections per fish)") +
+     labs(y="Myocardium Area (square microns)") +
+     labs(color="Genotype") +
+     facet_grid(cols=vars(fish_id2_fct), space="free_x",
+                scales="free_x")
+p4_list[[age_label]] = tmp_plt
+}
+
+ggsave(filename="jag2b_4,6,8month_mef2_all_meas_by_sectionid_20221220.pdf", 
+       plot=gridExtra::arrangeGrob(grobs=p4_list), width=14, height=12)        
+
+
+by_genotype = by_fish[, list(genotype_mean=mean(mean_of_means_area),
+                             genotype_sd=sd(mean_of_means_area)),
+                      by=list(age, genotype2)]
+
+p5 = ggplot() +
+     theme_bw() +
+     geom_errorbar(data=by_genotype,
+                   aes(x=genotype2,
+                       ymin=genotype_mean - genotype_sd,
+                       ymax=genotype_mean + genotype_sd,
+                       color=genotype2),
+                   linewidth=0.5,
+                   width=0.5) +
+     geom_segment(data=by_genotype,
+                  aes(y=genotype_mean,
+                      yend=genotype_mean,
+                      x=as.integer(genotype2) - 0.4,
+                      xend=as.integer(genotype2) + 0.4,
+                      color=genotype2),
+                  linewidth=0.8) +
+     geom_point(data=by_fish,
+                aes(x=genotype2, 
+                    y=mean_of_means_area,
+                    fill=genotype2),
+                size=1.6,
+                shape=21,
+                color="grey30") +
+     scale_color_manual(values=genotype_colors) +
+     scale_fill_manual(values=genotype_colors) +
+     labs(title="Jag2b heart area histology.") +
+     labs(subtitle="Horizontal bar = mean\nWhiskers = +/- standard deviation\nSolid dots = per-fish mean-of-means summary") +
+     labs(x=NULL) +
+     labs(y="Myocardium Area (square microns)") +
+     labs(color="Genotype") +
+     facet_grid(cols=vars(age))
+
+
+ggsave(filename="jag2b_4month_mef2_all_fish_by_genotype_20221220.pdf", plot=p5, width=4, height=4)        
+
+```
+
+
+
+```{r, echo=FALSE, out.width="150%", dpi=300}
+# Print plots in html output
+
+p4_list[[1]]
+
+```
+
+```{r, echo=FALSE, out.width="150%", dpi=300}
+# Print plots in html output
+
+p4_list[[2]]
+
+```
+
+```{r, echo=FALSE, dpi=300}
+# Print plots in html output
+
+p4_list[[3]]
+
+
+```
+
+```{r, echo=FALSE, dpi=300}
+
+p5
+
+```
+
+
+#### 4-month ANOVA and T-test
+```{r 4-month-stats}
+# Anova, by genotype, using per-fish mean of means.
+tmp_data = by_fish[age == "4month"]
+  
+anova_res = anova(lm(mean_of_means_area ~ genotype2, data=tmp_data))
+anova_res
+
+t_test_res = t.test(mean_of_means_area ~ genotype2, 
+                    data=tmp_data[genotype2 != "het"])
+
+# t.test results for 4-month wt vs. 4-month mut (hets not included).
+t_test_res
+
+
+```
+
+***
+
+#### 6-month ANOVA and T-test
+```{r 6-month-stats}
+# Anova, by genotype, using per-fish mean of means.
+tmp_data = by_fish[age == "6month"]
+  
+anova_res = anova(lm(mean_of_means_area ~ genotype2, data=tmp_data))
+anova_res
+
+t_test_res = t.test(mean_of_means_area ~ genotype2, 
+                    data=tmp_data[genotype2 != "het"])
+
+# t.test results for 6-month wt vs. 6-month mut (hets not included).
+t_test_res
+
+
+```
+
+***
+
+#### 8-month ANOVA and T-test
+```{r 8-month-stats}
+# Anova, by genotype, using per-fish mean of means.
+tmp_data = by_fish[age == "8month"]
+
+# Anova has very low power because number of wt fish = 1. 
+##anova_res = anova(lm(mean_of_means_area ~ genotype2, data=tmp_data))
+##anova_res
+
+t_test_res = t.test(mean_of_means_area ~ genotype2, 
+                    data=tmp_data[genotype2 != "wt"])
+
+# t.test results for 8-month het vs. 8-month mut (wt not included).
+t_test_res
+
+
+```
+
+
+
+
