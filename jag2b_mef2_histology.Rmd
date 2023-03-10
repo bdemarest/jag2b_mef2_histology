@@ -33,16 +33,26 @@ tab4 = tab4[!notes %in% "ripped do not use"]
 # Remove rows where fish_id is NA.
 tab4 = tab4[!is.na(fish_id)]
 
+# Remove 'notes' column so that rbind step works properly.
+set(tab4, j="notes", value=NULL)
+
 #--------------
+
+# Earlier data file versions had incorrect age assigned to some fish
+# (both 6- and 8-month).
+# Do not use older, erroneous data files:
+#   - mef2_histology_analysis_jag2b_6_month_2022-12-20.xlsx
+#   - mef2_histology_analysis_jag2b_8_month_2022-12-20.xlsx
+
 # 6-month data.
-tab6 = readxl::read_excel("mef2_histology_analysis_jag2b_6_month_2022-12-20.xlsx")
+tab6 = readxl::read_excel("mef2_histology_analysis_jag2b_6_month_2023-03-09_correct_age.xlsx")
 
 tab6 = as.data.table(tab6)
 # No 'ripped section' notes. No NA fish_ids.
 
 #--------------
 # 8-month data.
-tab8 = readxl::read_excel("mef2_histology_analysis_jag2b_8_month_2022-12-20.xlsx")
+tab8 = readxl::read_excel("mef2_histology_analysis_jag2b_8_month_2023-03-09_correct_age.xlsx")
 
 tab8 = as.data.table(tab8)
 # No 'ripped section' notes. No NA fish_ids.
@@ -266,7 +276,7 @@ tmp_plt = ggplot() +
 p4_list[[age_label]] = tmp_plt
 }
 
-ggsave(filename="jag2b_4,6,8month_mef2_all_meas_by_sectionid_20221220.pdf", 
+ggsave(filename="jag2b_4,6,8month_mef2_all_meas_by_sectionid_20230310.pdf", 
        plot=gridExtra::arrangeGrob(grobs=p4_list), width=14, height=12)        
 
 
@@ -307,10 +317,21 @@ p5 = ggplot() +
      facet_grid(cols=vars(age))
 
 
-ggsave(filename="jag2b_4month_mef2_all_fish_by_genotype_20221220.pdf", plot=p5, width=4, height=4)        
+ggsave(filename="jag2b_4month_mef2_all_fish_by_genotype_20230310.pdf", plot=p5, width=4, height=4)        
 
 ```
 
+```{r}
+# Create tab-delimited text file containing summarized
+# histology data (jag2b fish, mef2 cardiomyocyte IHC detection).
+# Table contains one row per fish id. Columns include age, genotype,
+# mean_of_means_area (um^2), median_of_medians_area (um^2).
+
+fwrite(by_fish,
+       file="jag2b_mef2_summarized_histology_4_6_8_month_n38_20230310.txt",
+       sep="\t")
+
+```
 
 
 ```{r, echo=FALSE, out.width="150%", dpi=300}
@@ -356,6 +377,8 @@ t_test_res = t.test(mean_of_means_area ~ genotype2,
 # t.test results for 4-month wt vs. 4-month mut (hets not included).
 t_test_res
 
+# To do:
+# Add TukeyHSD test for all 4- and 6-month time points.
 
 ```
 
@@ -381,7 +404,9 @@ t_test_res
 ***
 
 #### 8-month ANOVA and T-test
-```{r 8-month-stats}
+8-month timepoint has only 5 fish (and 3 genotypes) so R's t-test function
+produces an error ("not enough 'y' observations").
+```{r 8-month-stats, eval=FALSE}
 # Anova, by genotype, using per-fish mean of means.
 tmp_data = by_fish[age == "8month"]
 

@@ -18,16 +18,26 @@ tab4 = tab4[!notes %in% "ripped do not use"]
 # Remove rows where fish_id is NA.
 tab4 = tab4[!is.na(fish_id)]
 
+# Remove 'notes' column so that rbind step works properly.
+set(tab4, j="notes", value=NULL)
+
 #--------------
+
+# Earlier data file versions had incorrect age assigned to some fish
+# (both 6- and 8-month).
+# Do not use older, erroneous data files:
+#   - mef2_histology_analysis_jag2b_6_month_2022-12-20.xlsx
+#   - mef2_histology_analysis_jag2b_8_month_2022-12-20.xlsx
+
 # 6-month data.
-tab6 = readxl::read_excel("mef2_histology_analysis_jag2b_6_month_2022-12-20.xlsx")
+tab6 = readxl::read_excel("mef2_histology_analysis_jag2b_6_month_2023-03-09_correct_age.xlsx")
 
 tab6 = as.data.table(tab6)
 # No 'ripped section' notes. No NA fish_ids.
 
 #--------------
 # 8-month data.
-tab8 = readxl::read_excel("mef2_histology_analysis_jag2b_8_month_2022-12-20.xlsx")
+tab8 = readxl::read_excel("mef2_histology_analysis_jag2b_8_month_2023-03-09_correct_age.xlsx")
 
 tab8 = as.data.table(tab8)
 # No 'ripped section' notes. No NA fish_ids.
@@ -72,7 +82,7 @@ length(unique(tab$id2))
 dim(tab)
 ```
 
-    ## [1] 830  16
+    ## [1] 830  15
 
 ``` r
 # [1] 830  16
@@ -152,7 +162,7 @@ xtab2 %>% as_tibble() %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yriioasgtb .gt_table {
+#pgftfgsvzs .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -180,7 +190,7 @@ xtab2 %>% as_tibble() %>%
   /* table.border.bottom.color */
 }
 
-#yriioasgtb .gt_heading {
+#pgftfgsvzs .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
@@ -199,7 +209,7 @@ xtab2 %>% as_tibble() %>%
   /* heading.border.lr.color */
 }
 
-#yriioasgtb .gt_title {
+#pgftfgsvzs .gt_title {
   color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
@@ -213,7 +223,7 @@ xtab2 %>% as_tibble() %>%
   border-bottom-width: 0;
 }
 
-#yriioasgtb .gt_subtitle {
+#pgftfgsvzs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -227,7 +237,7 @@ xtab2 %>% as_tibble() %>%
   border-top-width: 0;
 }
 
-#yriioasgtb .gt_bottom_border {
+#pgftfgsvzs .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -236,7 +246,7 @@ xtab2 %>% as_tibble() %>%
   /* heading.border.bottom.color */
 }
 
-#yriioasgtb .gt_column_spanner {
+#pgftfgsvzs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -244,7 +254,7 @@ xtab2 %>% as_tibble() %>%
   padding-bottom: 4px;
 }
 
-#yriioasgtb .gt_col_headings {
+#pgftfgsvzs .gt_col_headings {
   border-top-style: solid;
   /* column_labels.border.top.style */
   border-top-width: 2px;
@@ -271,7 +281,7 @@ xtab2 %>% as_tibble() %>%
   /* column_labels.border.lr.color */
 }
 
-#yriioasgtb .gt_col_heading {
+#pgftfgsvzs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -287,11 +297,11 @@ xtab2 %>% as_tibble() %>%
   overflow-x: hidden;
 }
 
-#yriioasgtb .gt_sep_right {
+#pgftfgsvzs .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#yriioasgtb .gt_group_heading {
+#pgftfgsvzs .gt_group_heading {
   padding: 8px;
   /* row_group.padding */
   color: #333333;
@@ -330,7 +340,7 @@ xtab2 %>% as_tibble() %>%
   vertical-align: middle;
 }
 
-#yriioasgtb .gt_empty_group_heading {
+#pgftfgsvzs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -354,20 +364,20 @@ xtab2 %>% as_tibble() %>%
   vertical-align: middle;
 }
 
-#yriioasgtb .gt_striped {
+#pgftfgsvzs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
   /* row.striping.background_color */
 }
 
-#yriioasgtb .gt_from_md > :first-child {
+#pgftfgsvzs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yriioasgtb .gt_from_md > :last-child {
+#pgftfgsvzs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yriioasgtb .gt_row {
+#pgftfgsvzs .gt_row {
   padding-top: 8px;
   /* data_row.padding */
   padding-bottom: 8px;
@@ -397,7 +407,7 @@ xtab2 %>% as_tibble() %>%
   overflow-x: hidden;
 }
 
-#yriioasgtb .gt_stub {
+#pgftfgsvzs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   /* stub.background.color */
@@ -414,7 +424,7 @@ xtab2 %>% as_tibble() %>%
   padding-left: 12px;
 }
 
-#yriioasgtb .gt_summary_row {
+#pgftfgsvzs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
@@ -428,7 +438,7 @@ xtab2 %>% as_tibble() %>%
   padding-right: 5px;
 }
 
-#yriioasgtb .gt_first_summary_row {
+#pgftfgsvzs .gt_first_summary_row {
   padding-top: 8px;
   /* summary_row.padding */
   padding-bottom: 8px;
@@ -443,7 +453,7 @@ xtab2 %>% as_tibble() %>%
   /* summary_row.border.color */
 }
 
-#yriioasgtb .gt_grand_summary_row {
+#pgftfgsvzs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* grand_summary_row.background.color */
@@ -457,7 +467,7 @@ xtab2 %>% as_tibble() %>%
   padding-right: 5px;
 }
 
-#yriioasgtb .gt_first_grand_summary_row {
+#pgftfgsvzs .gt_first_grand_summary_row {
   padding-top: 8px;
   /* grand_summary_row.padding */
   padding-bottom: 8px;
@@ -472,7 +482,7 @@ xtab2 %>% as_tibble() %>%
   /* grand_summary_row.border.color */
 }
 
-#yriioasgtb .gt_table_body {
+#pgftfgsvzs .gt_table_body {
   border-top-style: solid;
   /* table_body.border.top.style */
   border-top-width: 2px;
@@ -487,7 +497,7 @@ xtab2 %>% as_tibble() %>%
   /* table_body.border.bottom.color */
 }
 
-#yriioasgtb .gt_footnotes {
+#pgftfgsvzs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   /* footnotes.background.color */
@@ -511,7 +521,7 @@ xtab2 %>% as_tibble() %>%
   /* footnotes.border.lr.color */
 }
 
-#yriioasgtb .gt_footnote {
+#pgftfgsvzs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   /* footnotes.font.size */
@@ -519,7 +529,7 @@ xtab2 %>% as_tibble() %>%
   /* footnotes.padding */
 }
 
-#yriioasgtb .gt_sourcenotes {
+#pgftfgsvzs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   /* source_notes.background.color */
@@ -543,48 +553,48 @@ xtab2 %>% as_tibble() %>%
   /* source_notes.border.lr.style */
 }
 
-#yriioasgtb .gt_sourcenote {
+#pgftfgsvzs .gt_sourcenote {
   font-size: 90%;
   /* source_notes.font.size */
   padding: 4px;
   /* source_notes.padding */
 }
 
-#yriioasgtb .gt_left {
+#pgftfgsvzs .gt_left {
   text-align: left;
 }
 
-#yriioasgtb .gt_center {
+#pgftfgsvzs .gt_center {
   text-align: center;
 }
 
-#yriioasgtb .gt_right {
+#pgftfgsvzs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yriioasgtb .gt_font_normal {
+#pgftfgsvzs .gt_font_normal {
   font-weight: normal;
 }
 
-#yriioasgtb .gt_font_bold {
+#pgftfgsvzs .gt_font_bold {
   font-weight: bold;
 }
 
-#yriioasgtb .gt_font_italic {
+#pgftfgsvzs .gt_font_italic {
   font-style: italic;
 }
 
-#yriioasgtb .gt_super {
+#pgftfgsvzs .gt_super {
   font-size: 65%;
 }
 
-#yriioasgtb .gt_footnote_marks {
+#pgftfgsvzs .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="yriioasgtb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="pgftfgsvzs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -1143,733 +1153,733 @@ xtab2 %>% as_tibble() %>%
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">het_F0079</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0079</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1717_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0079</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1717_2</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0079</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1717_3</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0079</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2006_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0079</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2006_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0079</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2006_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0079</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2006_4</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0098</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0098</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">1719_1</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0098</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1719_1</td>
+      <td class="gt_row gt_left gt_striped">1719_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0098</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1719_2</td>
+      <td class="gt_row gt_left">1719_3</td>
       <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0098</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1719_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0101</td>
     </tr>
     <tr>
+      <td class="gt_row gt_left gt_striped">F0101</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1718_1</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
       <td class="gt_row gt_left">F0101</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1718_1</td>
+      <td class="gt_row gt_left">1718_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0101</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1718_2</td>
+      <td class="gt_row gt_left gt_striped">1718_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0101</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1718_3</td>
+      <td class="gt_row gt_left">1988_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0101</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1988_1</td>
+      <td class="gt_row gt_left gt_striped">1988_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0101</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1988_2</td>
+      <td class="gt_row gt_left">1988_3</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0101</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1988_3</td>
+      <td class="gt_row gt_left gt_striped">1988_4</td>
       <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0101</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1988_4</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">mut_F0086</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0086</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1715_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0086</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1715_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0086</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1715_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0086</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1715_4</td>
-      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0108</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0108</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1714_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0108</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1714_2</td>
+      <td class="gt_row gt_left">1714_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0108</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1714_3</td>
+      <td class="gt_row gt_left gt_striped">1714_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0108</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1714_4</td>
+      <td class="gt_row gt_left">1714_3</td>
       <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0108</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">mut</td>
+      <td class="gt_row gt_left gt_striped">1714_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0111</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0111</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1712_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0111</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1712_2</td>
+      <td class="gt_row gt_left">1712_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0111</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1712_3</td>
+      <td class="gt_row gt_left gt_striped">1712_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0111</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1712_4</td>
+      <td class="gt_row gt_left">1712_3</td>
       <td class="gt_row gt_center">5</td>
     </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">wt_F0077</td>
-    </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0077</td>
+      <td class="gt_row gt_left gt_striped">F0111</td>
       <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1711_1</td>
+      <td class="gt_row gt_center gt_striped">mut</td>
+      <td class="gt_row gt_left gt_striped">1712_4</td>
       <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0077</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1711_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0077</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1711_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0077</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1711_4</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">wt_F0078</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0078</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1708_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0078</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1708_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0078</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1708_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0078</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1708_4</td>
-      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0092</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0092</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1710_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0092</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1710_2</td>
+      <td class="gt_row gt_left">1710_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0092</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1710_3</td>
+      <td class="gt_row gt_left gt_striped">1710_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0092</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1710_4</td>
+      <td class="gt_row gt_left">1710_3</td>
       <td class="gt_row gt_center">5</td>
     </tr>
-    <tr class="gt_group_heading_row">
-      <td colspan="5" class="gt_group_heading">het_F0085</td>
-    </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0085</td>
+      <td class="gt_row gt_left gt_striped">F0092</td>
       <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1989_1</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1710_4</td>
       <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0085</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1989_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0085</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1989_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0085</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1989_4</td>
-      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0110</td>
     </tr>
     <tr>
+      <td class="gt_row gt_left">F0110</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">2005_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
       <td class="gt_row gt_left gt_striped">F0110</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2005_1</td>
+      <td class="gt_row gt_left gt_striped">2005_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0110</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2005_2</td>
+      <td class="gt_row gt_left">2005_3</td>
       <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0110</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2005_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0102</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0102</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1993_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0102</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1993_2</td>
+      <td class="gt_row gt_left gt_striped">1993_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0102</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1993_3</td>
+      <td class="gt_row gt_left">1993_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0102</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1993_4</td>
+      <td class="gt_row gt_left gt_striped">1993_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0102</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">1993_4</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0105</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0105</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1992_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0105</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1992_2</td>
+      <td class="gt_row gt_left gt_striped">1992_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0105</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1992_3</td>
+      <td class="gt_row gt_left">1992_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0105</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1992_4</td>
+      <td class="gt_row gt_left gt_striped">1992_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0105</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">1992_4</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0091</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0091</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1987_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0091</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1987_2</td>
+      <td class="gt_row gt_left gt_striped">1987_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0091</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1987_3</td>
+      <td class="gt_row gt_left">1987_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0091</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1987_4</td>
+      <td class="gt_row gt_left gt_striped">1987_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0091</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1987_4</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0094</td>
     </tr>
     <tr>
+      <td class="gt_row gt_left gt_striped">F0094</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1995_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
       <td class="gt_row gt_left">F0094</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1995_2</td>
+      <td class="gt_row gt_left">1995_3</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0094</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1995_3</td>
+      <td class="gt_row gt_left gt_striped">1995_4</td>
       <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0094</td>
-      <td class="gt_row gt_left">6month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1995_4</td>
-      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0097</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0097</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1985_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0097</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1985_2</td>
+      <td class="gt_row gt_left">1985_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0097</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1985_3</td>
+      <td class="gt_row gt_left gt_striped">1985_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0097</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1985_4</td>
+      <td class="gt_row gt_left">1985_3</td>
       <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0097</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1985_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0106</td>
     </tr>
     <tr>
+      <td class="gt_row gt_left">F0106</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1983_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
       <td class="gt_row gt_left gt_striped">F0106</td>
       <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1983_1</td>
+      <td class="gt_row gt_left gt_striped">1983_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0106</td>
       <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1983_2</td>
+      <td class="gt_row gt_left">1983_3</td>
       <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0106</td>
-      <td class="gt_row gt_left gt_striped">6month</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1983_3</td>
-      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0116</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0116</td>
-      <td class="gt_row gt_left">8month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2004_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0116</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2004_2</td>
+      <td class="gt_row gt_left gt_striped">2004_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0116</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2004_4</td>
+      <td class="gt_row gt_left">2004_2</td>
       <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0116</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">2004_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0118</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0118</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2003_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0118</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">2003_2</td>
+      <td class="gt_row gt_left">2003_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0118</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">2003_3</td>
+      <td class="gt_row gt_left gt_striped">2003_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0118</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">2003_3</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">het_F0122</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0122</td>
-      <td class="gt_row gt_left">8month</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1990_2</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0122</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_left gt_striped">1990_3</td>
+      <td class="gt_row gt_left gt_striped">1990_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0122</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_left">1990_4</td>
+      <td class="gt_row gt_left">1990_3</td>
       <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0122</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1990_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0117</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0117</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1999_1</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0117</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">1999_2</td>
+      <td class="gt_row gt_left">1999_1</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0117</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">1999_3</td>
+      <td class="gt_row gt_left gt_striped">1999_2</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0117</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">1999_3</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0120</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0120</td>
-      <td class="gt_row gt_left">8month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">2001_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0120</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">2001_2</td>
+      <td class="gt_row gt_left gt_striped">2001_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0120</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">2001_3</td>
+      <td class="gt_row gt_left">2001_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0120</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">2001_4</td>
+      <td class="gt_row gt_left gt_striped">2001_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0120</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">2001_4</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">mut_F0123</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0123</td>
-      <td class="gt_row gt_left">8month</td>
-      <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">2002_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0123</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">2002_2</td>
+      <td class="gt_row gt_left gt_striped">2002_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0123</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_left">2002_3</td>
+      <td class="gt_row gt_left">2002_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0123</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_left gt_striped">2002_4</td>
+      <td class="gt_row gt_left gt_striped">2002_3</td>
       <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0123</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">2002_4</td>
+      <td class="gt_row gt_center">5</td>
     </tr>
     <tr class="gt_group_heading_row">
       <td colspan="5" class="gt_group_heading">wt_F0114</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0114</td>
-      <td class="gt_row gt_left">8month</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1997_1</td>
-      <td class="gt_row gt_center">5</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left gt_striped">F0114</td>
-      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1997_2</td>
+      <td class="gt_row gt_left gt_striped">1997_1</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left">F0114</td>
-      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_left">6month</td>
       <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_left">1997_3</td>
+      <td class="gt_row gt_left">1997_2</td>
       <td class="gt_row gt_center">5</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0114</td>
+      <td class="gt_row gt_left gt_striped">6month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1997_3</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0114</td>
+      <td class="gt_row gt_left">6month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1997_4</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="5" class="gt_group_heading">het_F0079</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0079</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1717_1</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0079</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">1717_2</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0079</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1717_3</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0079</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">2006_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0079</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">2006_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0079</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">2006_3</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0079</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">2006_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="5" class="gt_group_heading">mut_F0086</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0086</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">1715_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0086</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">mut</td>
+      <td class="gt_row gt_left gt_striped">1715_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0086</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">1715_3</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0086</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">mut</td>
+      <td class="gt_row gt_left gt_striped">1715_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="5" class="gt_group_heading">wt_F0077</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0077</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1711_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0077</td>
       <td class="gt_row gt_left gt_striped">8month</td>
       <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_left gt_striped">1997_4</td>
+      <td class="gt_row gt_left gt_striped">1711_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0077</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1711_3</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0077</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1711_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="5" class="gt_group_heading">wt_F0078</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0078</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1708_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0078</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1708_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0078</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">wt</td>
+      <td class="gt_row gt_left">1708_3</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0078</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_left gt_striped">1708_4</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr class="gt_group_heading_row">
+      <td colspan="5" class="gt_group_heading">het_F0085</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0085</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">1989_1</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0085</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1989_2</td>
+      <td class="gt_row gt_center gt_striped">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0085</td>
+      <td class="gt_row gt_left">8month</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_left">1989_3</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0085</td>
+      <td class="gt_row gt_left gt_striped">8month</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_left gt_striped">1989_4</td>
       <td class="gt_row gt_center gt_striped">5</td>
     </tr>
   </tbody>
@@ -1891,7 +1901,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#loxyiumqie .gt_table {
+#vesiolohvm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1919,7 +1929,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* table.border.bottom.color */
 }
 
-#loxyiumqie .gt_heading {
+#vesiolohvm .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
@@ -1938,7 +1948,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* heading.border.lr.color */
 }
 
-#loxyiumqie .gt_title {
+#vesiolohvm .gt_title {
   color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
@@ -1952,7 +1962,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   border-bottom-width: 0;
 }
 
-#loxyiumqie .gt_subtitle {
+#vesiolohvm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -1966,7 +1976,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   border-top-width: 0;
 }
 
-#loxyiumqie .gt_bottom_border {
+#vesiolohvm .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -1975,7 +1985,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* heading.border.bottom.color */
 }
 
-#loxyiumqie .gt_column_spanner {
+#vesiolohvm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1983,7 +1993,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   padding-bottom: 4px;
 }
 
-#loxyiumqie .gt_col_headings {
+#vesiolohvm .gt_col_headings {
   border-top-style: solid;
   /* column_labels.border.top.style */
   border-top-width: 2px;
@@ -2010,7 +2020,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* column_labels.border.lr.color */
 }
 
-#loxyiumqie .gt_col_heading {
+#vesiolohvm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -2026,11 +2036,11 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   overflow-x: hidden;
 }
 
-#loxyiumqie .gt_sep_right {
+#vesiolohvm .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#loxyiumqie .gt_group_heading {
+#vesiolohvm .gt_group_heading {
   padding: 8px;
   /* row_group.padding */
   color: #333333;
@@ -2069,7 +2079,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   vertical-align: middle;
 }
 
-#loxyiumqie .gt_empty_group_heading {
+#vesiolohvm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2093,20 +2103,20 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   vertical-align: middle;
 }
 
-#loxyiumqie .gt_striped {
+#vesiolohvm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
   /* row.striping.background_color */
 }
 
-#loxyiumqie .gt_from_md > :first-child {
+#vesiolohvm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#loxyiumqie .gt_from_md > :last-child {
+#vesiolohvm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#loxyiumqie .gt_row {
+#vesiolohvm .gt_row {
   padding-top: 8px;
   /* data_row.padding */
   padding-bottom: 8px;
@@ -2136,7 +2146,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   overflow-x: hidden;
 }
 
-#loxyiumqie .gt_stub {
+#vesiolohvm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   /* stub.background.color */
@@ -2153,7 +2163,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   padding-left: 12px;
 }
 
-#loxyiumqie .gt_summary_row {
+#vesiolohvm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
@@ -2167,7 +2177,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   padding-right: 5px;
 }
 
-#loxyiumqie .gt_first_summary_row {
+#vesiolohvm .gt_first_summary_row {
   padding-top: 8px;
   /* summary_row.padding */
   padding-bottom: 8px;
@@ -2182,7 +2192,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* summary_row.border.color */
 }
 
-#loxyiumqie .gt_grand_summary_row {
+#vesiolohvm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* grand_summary_row.background.color */
@@ -2196,7 +2206,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   padding-right: 5px;
 }
 
-#loxyiumqie .gt_first_grand_summary_row {
+#vesiolohvm .gt_first_grand_summary_row {
   padding-top: 8px;
   /* grand_summary_row.padding */
   padding-bottom: 8px;
@@ -2211,7 +2221,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* grand_summary_row.border.color */
 }
 
-#loxyiumqie .gt_table_body {
+#vesiolohvm .gt_table_body {
   border-top-style: solid;
   /* table_body.border.top.style */
   border-top-width: 2px;
@@ -2226,7 +2236,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* table_body.border.bottom.color */
 }
 
-#loxyiumqie .gt_footnotes {
+#vesiolohvm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   /* footnotes.background.color */
@@ -2250,7 +2260,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* footnotes.border.lr.color */
 }
 
-#loxyiumqie .gt_footnote {
+#vesiolohvm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   /* footnotes.font.size */
@@ -2258,7 +2268,7 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* footnotes.padding */
 }
 
-#loxyiumqie .gt_sourcenotes {
+#vesiolohvm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   /* source_notes.background.color */
@@ -2282,48 +2292,48 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
   /* source_notes.border.lr.style */
 }
 
-#loxyiumqie .gt_sourcenote {
+#vesiolohvm .gt_sourcenote {
   font-size: 90%;
   /* source_notes.font.size */
   padding: 4px;
   /* source_notes.padding */
 }
 
-#loxyiumqie .gt_left {
+#vesiolohvm .gt_left {
   text-align: left;
 }
 
-#loxyiumqie .gt_center {
+#vesiolohvm .gt_center {
   text-align: center;
 }
 
-#loxyiumqie .gt_right {
+#vesiolohvm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#loxyiumqie .gt_font_normal {
+#vesiolohvm .gt_font_normal {
   font-weight: normal;
 }
 
-#loxyiumqie .gt_font_bold {
+#vesiolohvm .gt_font_bold {
   font-weight: bold;
 }
 
-#loxyiumqie .gt_font_italic {
+#vesiolohvm .gt_font_italic {
   font-style: italic;
 }
 
-#loxyiumqie .gt_super {
+#vesiolohvm .gt_super {
   font-size: 65%;
 }
 
-#loxyiumqie .gt_footnote_marks {
+#vesiolohvm .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="loxyiumqie" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="vesiolohvm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2437,18 +2447,6 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
       <td class="gt_row gt_center gt_striped">3</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0077</td>
-      <td class="gt_row gt_left">wt_F0077</td>
-      <td class="gt_row gt_center">wt</td>
-      <td class="gt_row gt_center">4</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0078</td>
-      <td class="gt_row gt_left gt_striped">wt_F0078</td>
-      <td class="gt_row gt_center gt_striped">wt</td>
-      <td class="gt_row gt_center gt_striped">4</td>
-    </tr>
-    <tr>
       <td class="gt_row gt_left">F0092</td>
       <td class="gt_row gt_left">wt_F0092</td>
       <td class="gt_row gt_center">wt</td>
@@ -2467,28 +2465,40 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
       <td class="gt_row gt_center">4</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0098</td>
-      <td class="gt_row gt_left gt_striped">het_F0098</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_center gt_striped">3</td>
+      <td class="gt_row gt_left gt_striped">F0114</td>
+      <td class="gt_row gt_left gt_striped">wt_F0114</td>
+      <td class="gt_row gt_center gt_striped">wt</td>
+      <td class="gt_row gt_center gt_striped">4</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0110</td>
-      <td class="gt_row gt_left">het_F0110</td>
+      <td class="gt_row gt_left">F0098</td>
+      <td class="gt_row gt_left">het_F0098</td>
       <td class="gt_row gt_center">het</td>
       <td class="gt_row gt_center">3</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0085</td>
-      <td class="gt_row gt_left gt_striped">het_F0085</td>
+      <td class="gt_row gt_left gt_striped">F0110</td>
+      <td class="gt_row gt_left gt_striped">het_F0110</td>
       <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_center gt_striped">4</td>
+      <td class="gt_row gt_center gt_striped">3</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0079</td>
-      <td class="gt_row gt_left">het_F0079</td>
+      <td class="gt_row gt_left">F0116</td>
+      <td class="gt_row gt_left">het_F0116</td>
       <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_center">7</td>
+      <td class="gt_row gt_center">3</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0118</td>
+      <td class="gt_row gt_left gt_striped">het_F0118</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_center gt_striped">3</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0122</td>
+      <td class="gt_row gt_left">het_F0122</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_center">3</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0101</td>
@@ -2497,10 +2507,10 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
       <td class="gt_row gt_center gt_striped">7</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0086</td>
-      <td class="gt_row gt_left">mut_F0086</td>
+      <td class="gt_row gt_left">F0117</td>
+      <td class="gt_row gt_left">mut_F0117</td>
       <td class="gt_row gt_center">mut</td>
-      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_center">3</td>
     </tr>
     <tr>
       <td class="gt_row gt_left gt_striped">F0108</td>
@@ -2526,48 +2536,48 @@ xtab3 %>% as_tibble() %>% group_by(age) %>% gt()
       <td class="gt_row gt_center">mut</td>
       <td class="gt_row gt_center">4</td>
     </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0120</td>
+      <td class="gt_row gt_left gt_striped">mut_F0120</td>
+      <td class="gt_row gt_center gt_striped">mut</td>
+      <td class="gt_row gt_center gt_striped">4</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0123</td>
+      <td class="gt_row gt_left">mut_F0123</td>
+      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_center">4</td>
+    </tr>
     <tr class="gt_group_heading_row">
       <td colspan="4" class="gt_group_heading">8month</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0114</td>
-      <td class="gt_row gt_left gt_striped">wt_F0114</td>
+      <td class="gt_row gt_left gt_striped">F0077</td>
+      <td class="gt_row gt_left gt_striped">wt_F0077</td>
       <td class="gt_row gt_center gt_striped">wt</td>
       <td class="gt_row gt_center gt_striped">4</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left">F0116</td>
-      <td class="gt_row gt_left">het_F0116</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_center">3</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0118</td>
-      <td class="gt_row gt_left gt_striped">het_F0118</td>
-      <td class="gt_row gt_center gt_striped">het</td>
-      <td class="gt_row gt_center gt_striped">3</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0122</td>
-      <td class="gt_row gt_left">het_F0122</td>
-      <td class="gt_row gt_center">het</td>
-      <td class="gt_row gt_center">3</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left gt_striped">F0117</td>
-      <td class="gt_row gt_left gt_striped">mut_F0117</td>
-      <td class="gt_row gt_center gt_striped">mut</td>
-      <td class="gt_row gt_center gt_striped">3</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">F0120</td>
-      <td class="gt_row gt_left">mut_F0120</td>
-      <td class="gt_row gt_center">mut</td>
+      <td class="gt_row gt_left">F0078</td>
+      <td class="gt_row gt_left">wt_F0078</td>
+      <td class="gt_row gt_center">wt</td>
       <td class="gt_row gt_center">4</td>
     </tr>
     <tr>
-      <td class="gt_row gt_left gt_striped">F0123</td>
-      <td class="gt_row gt_left gt_striped">mut_F0123</td>
+      <td class="gt_row gt_left gt_striped">F0085</td>
+      <td class="gt_row gt_left gt_striped">het_F0085</td>
+      <td class="gt_row gt_center gt_striped">het</td>
+      <td class="gt_row gt_center gt_striped">4</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">F0079</td>
+      <td class="gt_row gt_left">het_F0079</td>
+      <td class="gt_row gt_center">het</td>
+      <td class="gt_row gt_center">7</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left gt_striped">F0086</td>
+      <td class="gt_row gt_left gt_striped">mut_F0086</td>
       <td class="gt_row gt_center gt_striped">mut</td>
       <td class="gt_row gt_center gt_striped">4</td>
     </tr>
@@ -2586,7 +2596,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#kjkmfusafs .gt_table {
+#lpgfsozrve .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2614,7 +2624,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* table.border.bottom.color */
 }
 
-#kjkmfusafs .gt_heading {
+#lpgfsozrve .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
@@ -2633,7 +2643,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* heading.border.lr.color */
 }
 
-#kjkmfusafs .gt_title {
+#lpgfsozrve .gt_title {
   color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
@@ -2647,7 +2657,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   border-bottom-width: 0;
 }
 
-#kjkmfusafs .gt_subtitle {
+#lpgfsozrve .gt_subtitle {
   color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -2661,7 +2671,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   border-top-width: 0;
 }
 
-#kjkmfusafs .gt_bottom_border {
+#lpgfsozrve .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -2670,7 +2680,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* heading.border.bottom.color */
 }
 
-#kjkmfusafs .gt_column_spanner {
+#lpgfsozrve .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2678,7 +2688,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   padding-bottom: 4px;
 }
 
-#kjkmfusafs .gt_col_headings {
+#lpgfsozrve .gt_col_headings {
   border-top-style: solid;
   /* column_labels.border.top.style */
   border-top-width: 2px;
@@ -2705,7 +2715,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* column_labels.border.lr.color */
 }
 
-#kjkmfusafs .gt_col_heading {
+#lpgfsozrve .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -2721,11 +2731,11 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   overflow-x: hidden;
 }
 
-#kjkmfusafs .gt_sep_right {
+#lpgfsozrve .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#kjkmfusafs .gt_group_heading {
+#lpgfsozrve .gt_group_heading {
   padding: 8px;
   /* row_group.padding */
   color: #333333;
@@ -2764,7 +2774,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   vertical-align: middle;
 }
 
-#kjkmfusafs .gt_empty_group_heading {
+#lpgfsozrve .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2788,20 +2798,20 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   vertical-align: middle;
 }
 
-#kjkmfusafs .gt_striped {
+#lpgfsozrve .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
   /* row.striping.background_color */
 }
 
-#kjkmfusafs .gt_from_md > :first-child {
+#lpgfsozrve .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kjkmfusafs .gt_from_md > :last-child {
+#lpgfsozrve .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kjkmfusafs .gt_row {
+#lpgfsozrve .gt_row {
   padding-top: 8px;
   /* data_row.padding */
   padding-bottom: 8px;
@@ -2831,7 +2841,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   overflow-x: hidden;
 }
 
-#kjkmfusafs .gt_stub {
+#lpgfsozrve .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   /* stub.background.color */
@@ -2848,7 +2858,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   padding-left: 12px;
 }
 
-#kjkmfusafs .gt_summary_row {
+#lpgfsozrve .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
@@ -2862,7 +2872,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   padding-right: 5px;
 }
 
-#kjkmfusafs .gt_first_summary_row {
+#lpgfsozrve .gt_first_summary_row {
   padding-top: 8px;
   /* summary_row.padding */
   padding-bottom: 8px;
@@ -2877,7 +2887,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* summary_row.border.color */
 }
 
-#kjkmfusafs .gt_grand_summary_row {
+#lpgfsozrve .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   /* grand_summary_row.background.color */
@@ -2891,7 +2901,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   padding-right: 5px;
 }
 
-#kjkmfusafs .gt_first_grand_summary_row {
+#lpgfsozrve .gt_first_grand_summary_row {
   padding-top: 8px;
   /* grand_summary_row.padding */
   padding-bottom: 8px;
@@ -2906,7 +2916,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* grand_summary_row.border.color */
 }
 
-#kjkmfusafs .gt_table_body {
+#lpgfsozrve .gt_table_body {
   border-top-style: solid;
   /* table_body.border.top.style */
   border-top-width: 2px;
@@ -2921,7 +2931,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* table_body.border.bottom.color */
 }
 
-#kjkmfusafs .gt_footnotes {
+#lpgfsozrve .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   /* footnotes.background.color */
@@ -2945,7 +2955,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* footnotes.border.lr.color */
 }
 
-#kjkmfusafs .gt_footnote {
+#lpgfsozrve .gt_footnote {
   margin: 0px;
   font-size: 90%;
   /* footnotes.font.size */
@@ -2953,7 +2963,7 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* footnotes.padding */
 }
 
-#kjkmfusafs .gt_sourcenotes {
+#lpgfsozrve .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   /* source_notes.background.color */
@@ -2977,48 +2987,48 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
   /* source_notes.border.lr.style */
 }
 
-#kjkmfusafs .gt_sourcenote {
+#lpgfsozrve .gt_sourcenote {
   font-size: 90%;
   /* source_notes.font.size */
   padding: 4px;
   /* source_notes.padding */
 }
 
-#kjkmfusafs .gt_left {
+#lpgfsozrve .gt_left {
   text-align: left;
 }
 
-#kjkmfusafs .gt_center {
+#lpgfsozrve .gt_center {
   text-align: center;
 }
 
-#kjkmfusafs .gt_right {
+#lpgfsozrve .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kjkmfusafs .gt_font_normal {
+#lpgfsozrve .gt_font_normal {
   font-weight: normal;
 }
 
-#kjkmfusafs .gt_font_bold {
+#lpgfsozrve .gt_font_bold {
   font-weight: bold;
 }
 
-#kjkmfusafs .gt_font_italic {
+#lpgfsozrve .gt_font_italic {
   font-style: italic;
 }
 
-#kjkmfusafs .gt_super {
+#lpgfsozrve .gt_super {
   font-size: 65%;
 }
 
-#kjkmfusafs .gt_footnote_marks {
+#lpgfsozrve .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="kjkmfusafs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="lpgfsozrve" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   <thead class="gt_header">
     <tr>
       <th colspan="4" class="gt_heading gt_title gt_font_normal gt_center" style>Number of fish measured</th>
@@ -3039,20 +3049,20 @@ dcast(data=xtab3, genotype2 ~ age, fun.aggregate=length) %>% as_tibble() %>%
     <tr>
       <td class="gt_row gt_center">wt</td>
       <td class="gt_row gt_center">5</td>
-      <td class="gt_row gt_center">7</td>
-      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center">6</td>
+      <td class="gt_row gt_center">2</td>
     </tr>
     <tr>
       <td class="gt_row gt_center gt_striped">het</td>
       <td class="gt_row gt_center gt_striped">4</td>
-      <td class="gt_row gt_center gt_striped">5</td>
-      <td class="gt_row gt_center gt_striped">3</td>
+      <td class="gt_row gt_center gt_striped">6</td>
+      <td class="gt_row gt_center gt_striped">2</td>
     </tr>
     <tr>
       <td class="gt_row gt_center">mut</td>
       <td class="gt_row gt_center">5</td>
-      <td class="gt_row gt_center">5</td>
-      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_center">7</td>
+      <td class="gt_row gt_center">1</td>
     </tr>
   </tbody>
   
@@ -3148,7 +3158,7 @@ tmp_plt = ggplot() +
 p4_list[[age_label]] = tmp_plt
 }
 
-ggsave(filename="jag2b_4,6,8month_mef2_all_meas_by_sectionid_20221220.pdf", 
+ggsave(filename="jag2b_4,6,8month_mef2_all_meas_by_sectionid_20230310.pdf", 
        plot=gridExtra::arrangeGrob(grobs=p4_list), width=14, height=12)        
 
 
@@ -3189,16 +3199,27 @@ p5 = ggplot() +
      facet_grid(cols=vars(age))
 
 
-ggsave(filename="jag2b_4month_mef2_all_fish_by_genotype_20221220.pdf", plot=p5, width=4, height=4)        
+ggsave(filename="jag2b_4month_mef2_all_fish_by_genotype_20230310.pdf", plot=p5, width=4, height=4)        
 ```
 
-<img src="jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-8-1.png" width="150%" />
+``` r
+# Create tab-delimited text file containing summarized
+# histology data (jag2b fish, mef2 cardiomyocyte IHC detection).
+# Table contains one row per fish id. Columns include age, genotype,
+# mean_of_means_area (um^2), median_of_medians_area (um^2).
+
+fwrite(by_fish,
+       file="jag2b_mef2_summarized_histology_4_6_8_month_n38_20230310.txt",
+       sep="\t")
+```
 
 <img src="jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-9-1.png" width="150%" />
 
-![](jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+<img src="jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-10-1.png" width="150%" />
 
 ![](jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+![](jag2b_mef2_histology_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 #### 4-month ANOVA and T-test
 
@@ -3237,6 +3258,11 @@ t_test_res
     ##  mean in group wt mean in group mut 
     ##          29745.13          31987.63
 
+``` r
+# To do:
+# Add TukeyHSD test for all 4- and 6-month time points.
+```
+
 ------------------------------------------------------------------------
 
 #### 6-month ANOVA and T-test
@@ -3252,9 +3278,9 @@ anova_res
     ## Analysis of Variance Table
     ## 
     ## Response: mean_of_means_area
-    ##           Df   Sum Sq  Mean Sq F value   Pr(>F)   
-    ## genotype2  2 99178660 49589330   9.848 0.002137 **
-    ## Residuals 14 70496868  5035491                    
+    ##           Df    Sum Sq  Mean Sq F value    Pr(>F)    
+    ## genotype2  2 146930003 73465001  14.094 0.0002955 ***
+    ## Residuals 16  83400200  5212512                      
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -3270,17 +3296,20 @@ t_test_res
     ##  Welch Two Sample t-test
     ## 
     ## data:  mean_of_means_area by genotype2
-    ## t = -3.6916, df = 9.7573, p-value = 0.004342
+    ## t = -3.4081, df = 7.8197, p-value = 0.009571
     ## alternative hypothesis: true difference in means is not equal to 0
     ## 95 percent confidence interval:
-    ##  -8233.652 -2022.468
+    ##  -8583.907 -1638.939
     ## sample estimates:
     ##  mean in group wt mean in group mut 
-    ##          30940.62          36068.68
+    ##          30759.74          35871.17
 
 ------------------------------------------------------------------------
 
 #### 8-month ANOVA and T-test
+
+8-month timepoint has only 5 fish (and 3 genotypes) so R’s t-test
+function produces an error (“not enough ‘y’ observations”).
 
 ``` r
 # Anova, by genotype, using per-fish mean of means.
@@ -3296,15 +3325,3 @@ t_test_res = t.test(mean_of_means_area ~ genotype2,
 # t.test results for 8-month het vs. 8-month mut (wt not included).
 t_test_res
 ```
-
-    ## 
-    ##  Welch Two Sample t-test
-    ## 
-    ## data:  mean_of_means_area by genotype2
-    ## t = -4.649, df = 3.4772, p-value = 0.01344
-    ## alternative hypothesis: true difference in means is not equal to 0
-    ## 95 percent confidence interval:
-    ##  -11747.185  -2628.135
-    ## sample estimates:
-    ## mean in group het mean in group mut 
-    ##          28699.31          35886.97
